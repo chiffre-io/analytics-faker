@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es2018",
-    "lib": ["DOM"],
+    "lib": ["DOM", "ES2019"],
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",

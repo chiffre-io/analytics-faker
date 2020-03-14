@@ -1,7 +1,7 @@
 {
-  "name": "@chiffre/template-library",
+  "name": "@chiffre/analytics-faker",
   "version": "0.0.0-semantically-released",
-  "description": "Template for Chiffre libraries",
+  "description": "Generate fake analytics data",
   "main": "dist/index.js",
   "license": "MIT",
   "author": {
@@ -11,11 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chiffre-io/template-library"
+    "url": "https://github.com/chiffre-io/analytics-faker"
   },
   "keywords": [
     "chiffre",
-    "template"
+    "analytics",
+    "faker"
   ],
   "publishConfig": {
     "access": "public"
@@ -28,10 +29,18 @@
     "build": "run-s build:clean build:ts",
     "ci": "run-s build test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@chiffre/analytics-core": "^1.0.0",
+    "@chiffre/crypto-box": "^1.0.1",
+    "faker": "^4.1.0",
+    "ms": "^2.1.2",
+    "tapers": "^0.1.0"
+  },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
+    "@types/faker": "^4.1.10",
     "@types/jest": "^25.1.4",
+    "@types/ms": "^0.7.31",
     "@types/node": "^13.9.1",
     "commitlint": "^8.3.5",
     "husky": "^4.2.3",
