@@ -16,13 +16,23 @@ const sessionDurationTaper = new PiecewiseLinearTaper([
   3600
 ])
 
-export const generateFakeSession = (referenceTime: number): BrowserEvent[] => {
-  const startDate = Math.round(referenceTime - Math.random() * ms('30 days'))
-  const duration = sessionDurationTaper.map(Math.random()) * 1000
+export interface FakeSessionGeneratorArgs {
+  referenceTimestamp: number
+  maxAge: string //< Anything `ms` can understand
+  maxDurationMs: number
+  paths: string[]
+}
+
+export const generateFakeSession = ({
+  referenceTimestamp = Date.now(),
+  maxAge = '30 days',
+  maxDurationMs = 1000,
+  paths = ['/', '/foo', '/bar', '/egg', '/spam']
+}: Partial<FakeSessionGeneratorArgs> = {}): BrowserEvent[] => {
+  const startDate = Math.round(referenceTimestamp - Math.random() * ms(maxAge))
+  const duration = sessionDurationTaper.map(Math.random()) * maxDurationMs
   const endDate = Math.round(startDate + duration)
   const sid = faker.random.uuid()
-
-  const paths = ['/', '/foo', '/bar', '/egg', '/spam']
 
   const events: BrowserEvent[] = [
     {
@@ -89,12 +99,13 @@ export const generateFakeSession = (referenceTime: number): BrowserEvent[] => {
 
 export default function generateFakePayloadStream(
   numSessions: number,
-  publicKey: string
+  publicKey: string,
+  generatorArgs?: Partial<FakeSessionGeneratorArgs>
 ): string[] {
   const pk = parsePublicKey(publicKey)
   return Array(numSessions)
     .fill(0)
-    .flatMap(() => generateFakeSession(Date.now()))
+    .flatMap(() => generateFakeSession(generatorArgs))
     .sort((a, b) => a.time - b.time)
     .map(event => encryptString(JSON.stringify(event), pk))
 }

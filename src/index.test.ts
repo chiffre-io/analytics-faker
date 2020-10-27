@@ -4,7 +4,7 @@ import generateFakePayloadStream from './index'
 import { sealedBoxRegex } from '@chiffre/crypto-box'
 
 test('Only push browser events', () => {
-  const session = generateFakeSession(Date.now())
+  const session = generateFakeSession()
   expect(session.every(event => isBrowserEvent(event)))
 })
 
